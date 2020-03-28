@@ -5,6 +5,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import {withRouter} from 'react-router-dom';
 
 const useStyles = makeStyles({
   container: {
@@ -23,18 +24,19 @@ const useStyles = makeStyles({
   },
   card: {
     boxSizing: "border-box",
+    borderRadius:"0px",
     border: "2px solid rgba(0,0,0,0)",
     '&:hover': {
       cursor: "pointer",
-      border: "2px solid black",
+      border: "2px solid blue",
     },
     maxWidth: 200,
   },
 });
 
-const ProductDisplay = () => {
-    const handleItemClick = () =>{
-        console.log("item was clicked")
+const ProductDisplay = ({history}) => {
+    const handleItemClick = (id) =>{
+        history.push(`/ProductDetails/${id}`)
       }
       const products = {
         pr:{
@@ -78,9 +80,8 @@ const ProductDisplay = () => {
       return (
         <div className={classes.container}>
           {Object.keys(products).map((product,key)=>{
-            console.log(product)
             return(
-              <Card className={classes.card} onClick={() => { handleItemClick("ALT-VLB-N-3XL") }}>
+              <Card key={products[product].id} className={classes.card} onClick={() => { handleItemClick(products[product].id) }}>
             <CardActionArea className="cardImage">
               <CardMedia component="img" height="auto" title={products[product].title} image={products[product].imageUrl} />
             </CardActionArea>
@@ -99,4 +100,4 @@ const ProductDisplay = () => {
       );
 }
 
-export default ProductDisplay
+export default withRouter(ProductDisplay)
